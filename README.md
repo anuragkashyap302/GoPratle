@@ -177,7 +177,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 ## 📹 Walkthrough Video & Live Deployment
 
 - **Live Application:** [Deploying to Vercel...]
-- **Live Backend API:** [Deploying to Render...]
+- **Live Backend API:** [https://gopratle-backend-csi5.onrender.com/api](https://gopratle-backend-csi5.onrender.com/api)
 - **Walkthrough Video:** [Recording link will be added here]
 
 ---
