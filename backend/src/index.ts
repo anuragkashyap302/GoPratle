@@ -83,6 +83,20 @@ app.use((req, _res, next) => {
   next();
 });
 
+// Root endpoint with API directory
+app.get('/', (_req, res) => {
+  res.status(200).json({
+    name: 'GoPratle Requirement Platform API',
+    version: '1.0.0',
+    status: 'online',
+    endpoints: {
+      health: '/api/health',
+      requirements: '/api/requirements',
+      stats: '/api/requirements/stats'
+    }
+  });
+});
+
 // Health check endpoint
 app.get('/api/health', (_req, res) => {
   const dbState = mongoose.connection.readyState;
