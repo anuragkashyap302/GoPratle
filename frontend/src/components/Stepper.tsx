@@ -56,7 +56,7 @@ export const Stepper: React.FC<StepperProps> = ({ currentStep, onStepClick }) =>
               onClick={() => isCompleted && onStepClick(step.id)}
               disabled={!isCompleted && !isCurrent}
               className={`flex flex-col items-center group relative z-10 focus:outline-none transition-all ${
-                isCompleted ? 'cursor-pointer' : isCurrent ? 'cursor-default' : 'cursor-not-allowed opacity-60'
+                isCompleted ? 'cursor-pointer' : isCurrent ? 'cursor-default' : 'cursor-not-allowed'
               }`}
             >
               <div
@@ -65,25 +65,25 @@ export const Stepper: React.FC<StepperProps> = ({ currentStep, onStepClick }) =>
                     ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/30 ring-2 ring-emerald-200'
                     : isCurrent
                     ? 'bg-white text-emerald-700 border-2 border-emerald-600 shadow-lg ring-4 ring-emerald-100 scale-110'
-                    : 'bg-white border-2 border-emerald-200 text-emerald-400 group-hover:border-emerald-300'
+                    : 'bg-white border-2 border-emerald-200 text-emerald-500 group-hover:border-emerald-300'
                 }`}
               >
                 {isCompleted ? (
                   <Check className="w-5 h-5 stroke-[3]" />
                 ) : (
-                  <StepIcon className={`w-5 h-5 ${isCurrent ? 'text-emerald-700' : 'text-emerald-400'}`} />
+                  <StepIcon className={`w-5 h-5 ${isCurrent ? 'text-emerald-700' : 'text-emerald-500'}`} />
                 )}
               </div>
 
               <div className="mt-2.5 text-center">
                 <p
-                  className={`text-xs font-bold tracking-wide transition-colors ${
-                    isCurrent ? 'text-emerald-900 font-extrabold' : isCompleted ? 'text-emerald-800' : 'text-gray-400'
+                  className={`text-xs tracking-wide transition-colors ${
+                    isCurrent ? 'text-emerald-950 font-extrabold' : isCompleted ? 'text-emerald-800 font-bold' : 'text-slate-600 font-semibold'
                   }`}
                 >
                   {step.title}
                 </p>
-                <p className="text-[11px] text-emerald-600/80 mt-0.5 hidden lg:block">
+                <p className={`text-[11px] mt-0.5 hidden lg:block ${isCurrent ? 'text-emerald-700 font-medium' : isCompleted ? 'text-emerald-600' : 'text-slate-500 font-normal'}`}>
                   {step.description}
                 </p>
               </div>

@@ -18,7 +18,8 @@ import {
   AlertTriangle,
   RefreshCw,
   Tag,
-  CheckCircle2
+  CheckCircle2,
+  ArrowUpDown
 } from 'lucide-react';
 
 export default function RequirementsExplorerPage() {
@@ -26,6 +27,7 @@ export default function RequirementsExplorerPage() {
   const [totalCount, setTotalCount] = useState<number>(0);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [sortBy, setSortBy] = useState<'newest' | 'oldest'>('newest');
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [inspectDoc, setInspectDoc] = useState<RequirementDoc | null>(null);
@@ -34,7 +36,7 @@ export default function RequirementsExplorerPage() {
     setIsLoading(true);
     setError(null);
     try {
-      const res = await getRequirementsApi(selectedCategory, searchQuery);
+      const res = await getRequirementsApi(selectedCategory, searchQuery, sortBy);
       setRequirements(res.data);
       setTotalCount(res.total);
     } catch (err: any) {
@@ -46,7 +48,7 @@ export default function RequirementsExplorerPage() {
 
   useEffect(() => {
     fetchRequirements();
-  }, [selectedCategory]);
+  }, [selectedCategory, sortBy]);
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -155,6 +157,52 @@ export default function RequirementsExplorerPage() {
               </button>
             );
           })}
+        </div>
+
+        {/* Feed Summary & Sort Control Toolbar */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 px-2 pt-1 pb-2 border-b border-emerald-100/70 text-xs text-emerald-800">
+          <div className="flex items-center gap-2">
+            <span className="font-semibold text-emerald-950">
+              Showing <span className="text-emerald-700 font-extrabold">{requirements.length}</span> of {totalCount} requirements
+            </span>
+            {searchQuery && (
+              <span className="text-emerald-600 font-normal">
+                matching &quot;{searchQuery}&quot;
+              </span>
+            )}
+          </div>
+
+          {/* Sort Strategy Toggle (Marketplace Feed vs FIFO Queue) */}
+          <div className="flex items-center gap-1.5 bg-white/90 border border-emerald-200 rounded-full p-1 shadow-sm">
+            <span className="text-[11px] font-medium text-emerald-700 pl-3 pr-1 flex items-center gap-1">
+              <ArrowUpDown className="w-3 h-3 text-emerald-600" />
+              Order:
+            </span>
+            <button
+              type="button"
+              onClick={() => setSortBy('newest')}
+              className={`px-3.5 py-1 rounded-full font-bold text-xs transition-all cursor-pointer ${
+                sortBy === 'newest'
+                  ? 'bg-emerald-600 text-white shadow-xs'
+                  : 'text-emerald-800 hover:bg-emerald-50'
+              }`}
+              title="Reverse chronological order - freshly posted requirements appear first"
+            >
+              Newest First (Feed)
+            </button>
+            <button
+              type="button"
+              onClick={() => setSortBy('oldest')}
+              className={`px-3.5 py-1 rounded-full font-bold text-xs transition-all cursor-pointer ${
+                sortBy === 'oldest'
+                  ? 'bg-emerald-600 text-white shadow-xs'
+                  : 'text-emerald-800 hover:bg-emerald-50'
+              }`}
+              title="First In, First Out (FIFO) - earliest submitted requirements appear first"
+            >
+              Oldest First (Queue)
+            </button>
+          </div>
         </div>
 
         {/* Content State */}

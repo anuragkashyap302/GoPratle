@@ -46,7 +46,7 @@ export async function createRequirement(req: Request, res: Response, next: NextF
  */
 export async function getRequirements(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
-    const { category, search, eventType, page = '1', limit = '12' } = req.query;
+    const { category, search, eventType, page = '1', limit = '12', sort = 'newest' } = req.query;
 
     const query: Record<string, any> = {};
 
@@ -70,8 +70,11 @@ export async function getRequirements(req: Request, res: Response, next: NextFun
     const limitNum = Math.min(50, Math.max(1, parseInt(limit as string, 10) || 12));
     const skip = (pageNum - 1) * limitNum;
 
+    // Support both Newest-First (Marketplace Feed) and Oldest-First (FIFO Queue)
+    const sortDirection: 1 | -1 = (sort === 'oldest' || sort === 'asc') ? 1 : -1;
+
     const [requirements, total] = await Promise.all([
-      Requirement.find(query).sort({ createdAt: -1 }).skip(skip).limit(limitNum),
+      Requirement.find(query).sort({ createdAt: sortDirection }).skip(skip).limit(limitNum),
       Requirement.countDocuments(query)
     ]);
 

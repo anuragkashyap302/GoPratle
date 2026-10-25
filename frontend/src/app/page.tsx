@@ -42,7 +42,7 @@ export default function RequirementPostingPage() {
           <h1 className="text-3xl sm:text-5xl font-bold bg-gradient-to-r from-emerald-800 to-green-700 bg-clip-text text-transparent tracking-tight">
             Post An Event Requirement
           </h1>
-          <p className="text-base text-emerald-700 font-light mt-2 italic">
+          <p className="text-base sm:text-lg text-slate-600 mt-2.5 font-normal">
             Find and hire verified event planners, artists, performers, and technical crew.
           </p>
         </div>

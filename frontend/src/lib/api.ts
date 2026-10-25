@@ -76,12 +76,14 @@ export async function createRequirementApi(
 
 export async function getRequirementsApi(
   category?: string,
-  search?: string
+  search?: string,
+  sortBy: 'newest' | 'oldest' = 'newest'
 ): Promise<{ total: number; data: RequirementDoc[] }> {
   try {
     const params = new URLSearchParams();
     if (category && category !== 'all') params.append('category', category);
     if (search && search.trim() !== '') params.append('search', search.trim());
+    if (sortBy) params.append('sort', sortBy);
 
     const res = await fetch(`${API_BASE}/requirements?${params.toString()}`, {
       cache: 'no-store'
